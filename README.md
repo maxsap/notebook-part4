@@ -17,7 +17,7 @@ rhc app cartridge add -a notebook -c postgresql-8.4
 After you have created the application using rhc create app command and added MongoDB, RockMongoDB client, and PostgreSQL cartridges using rhc app cartridge add command you have to checkout the code from my github. To do that follow the steps mentioned below.
 
 ```
-git remote add notebook -m master git://github.com/shekhargulati/notebook-part3.git
+git remote add notebook -m master git://github.com/shekhargulati/notebook-part4.git
  
 git pull -s recursive -X theirs notebook master
  

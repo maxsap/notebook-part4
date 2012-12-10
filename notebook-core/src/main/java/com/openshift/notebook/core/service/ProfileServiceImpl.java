@@ -26,6 +26,7 @@ public class ProfileServiceImpl implements ProfileService {
 	@Cacheable(value = "profiles", key = "#id")
 	public Profile findProfile(Long id) {
 		try {
+			System.out.println("Sleeping for 5 minutes");
 			Thread.sleep(5000);
 		} catch (InterruptedException e) {
 		}
