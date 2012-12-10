@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 
 <server xmlns="urn:jboss:domain:1.1">
-
+    
     <extensions>
         <extension module="org.jboss.as.clustering.infinispan"/>
         <extension module="org.jboss.as.clustering.jgroups"/>
@@ -35,9 +35,9 @@
     </extensions>
     
     <system-properties>
-       <property name="org.apache.coyote.http11.Http11Protocol.COMPRESSION" value="on"/>
+        <property name="org.apache.coyote.http11.Http11Protocol.COMPRESSION" value="on"/>
     </system-properties>
-
+    
     <management>
         <management-interfaces>
             <native-interface>
@@ -48,15 +48,15 @@
             </http-interface>
         </management-interfaces>
     </management>
-
+    
     <profile>
         <subsystem xmlns="urn:jboss:domain:logging:1.1">
             <!--console-handler name="CONSOLE">
-                <level name="INFO"/>
-                <formatter>
-                    <pattern-formatter pattern="%d{HH:mm:ss,SSS} %-5p [%c] (%t) %s%E%n"/>
-                </formatter>
-            </console-handler-->
+             <level name="INFO"/>
+             <formatter>
+             <pattern-formatter pattern="%d{HH:mm:ss,SSS} %-5p [%c] (%t) %s%E%n"/>
+             </formatter>
+             </console-handler-->
             <periodic-rotating-file-handler name="FILE">
                 <formatter>
                     <pattern-formatter pattern="%d{yyyy/MM/dd HH:mm:ss,SSS} %-5p [%c] (%t) %s%E%n"/>
@@ -104,22 +104,22 @@
                     <connection-url>jdbc:mysql://${env.OPENSHIFT_MYSQL_DB_HOST}:${env.OPENSHIFT_MYSQL_DB_PORT}/${env.OPENSHIFT_APP_NAME}</connection-url>
                     <driver>mysql</driver>
                     <security>
-                      <user-name>${env.OPENSHIFT_MYSQL_DB_USERNAME}</user-name>
-                      <password>${env.OPENSHIFT_MYSQL_DB_PASSWORD}</password>
+                        <user-name>${env.OPENSHIFT_MYSQL_DB_USERNAME}</user-name>
+                        <password>${env.OPENSHIFT_MYSQL_DB_PASSWORD}</password>
                     </security>
                     <validation>
-                      <check-valid-connection-sql>SELECT 1</check-valid-connection-sql>
+                        <check-valid-connection-sql>SELECT 1</check-valid-connection-sql>
                 	</validation>
                 </datasource>
                 <datasource jndi-name="java:jboss/datasources/PostgreSQLDS" enabled="${postgresql.enabled}" use-java-context="true" pool-name="PostgreSQLDS" use-ccm="true">
                     <connection-url>jdbc:postgresql://${env.OPENSHIFT_POSTGRESQL_DB_HOST}:${env.OPENSHIFT_POSTGRESQL_DB_PORT}/${env.OPENSHIFT_APP_NAME}</connection-url>
                     <driver>postgresql</driver>
                     <security>
-                      <user-name>${env.OPENSHIFT_POSTGRESQL_DB_USERNAME}</user-name>
-                      <password>${env.OPENSHIFT_POSTGRESQL_DB_PASSWORD}</password>
+                        <user-name>${env.OPENSHIFT_POSTGRESQL_DB_USERNAME}</user-name>
+                        <password>${env.OPENSHIFT_POSTGRESQL_DB_PASSWORD}</password>
                     </security>
                     <validation>
-                      <check-valid-connection-sql>SELECT 1</check-valid-connection-sql>
+                        <check-valid-connection-sql>SELECT 1</check-valid-connection-sql>
                 	</validation>
                 </datasource>
                 <drivers>
@@ -180,9 +180,9 @@
             <!--iiop enable-by-default="false" use-qualified-name="false"/-->
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:infinispan:1.1" default-cache-container="cluster">
-            <cache-container name="cluster" aliases="ha-partition" default-cache="default">
+        	<cache-container name="cluster" aliases="ha-partition" default-cache="default" jndi-name="java:jboss/infinispan/cluster">
                 <transport lock-timeout="60000"/>
-                <replicated-cache name="default" mode="SYNC" batching="true">
+                <replicated-cache name="default" mode="SYNC" batching="true" start="EAGER">
                     <locking isolation="REPEATABLE_READ"/>
                 </replicated-cache>
             </cache-container>
@@ -203,7 +203,7 @@
                     <file-store/>
                 </replicated-cache>
                 <!-- Clustered cache used internally by EJB subsytem for managing the client-mapping(s) of
-                the socketbinding referenced by the EJB remoting connector -->
+                 the socketbinding referenced by the EJB remoting connector -->
                 <replicated-cache name="remote-connector-client-mappings" mode="SYNC" batching="true"/>
                 <distributed-cache name="dist" mode="ASYNC" batching="true">
                     <eviction strategy="LRU"/>
@@ -243,15 +243,15 @@
             <bean-validation enabled="false"/>
             <default-workmanager>
                 <short-running-threads>
-                        <core-threads count="10"/>
-                        <queue-length count="10" />
-                        <max-threads count="10" />
+                    <core-threads count="10"/>
+                    <queue-length count="10" />
+                    <max-threads count="10" />
                     <keepalive-time time="10" unit="seconds"/>
                 </short-running-threads>
                 <long-running-threads>
-                        <core-threads count="10"/>
-                        <queue-length count="10" />
-                        <max-threads count="10" />
+                    <core-threads count="10"/>
+                    <queue-length count="10" />
+                    <max-threads count="10" />
                     <keepalive-time time="10" unit="seconds"/>
                 </long-running-threads>
             </default-workmanager>
@@ -259,7 +259,7 @@
         <subsystem xmlns="urn:jboss:domain:jdr:1.0"/>
         <subsystem xmlns="urn:jboss:domain:jgroups:1.0" default-stack="tcp">
             <stack name="tcp">
-                <transport type="TCP" socket-binding="jgroups-tcp"> 
+                <transport type="TCP" socket-binding="jgroups-tcp">
                 	<property name="external_addr">${env.OPENSHIFT_GEAR_DNS}</property>
                     <property name="external_port">${env.OPENSHIFT_JBOSSAS_CLUSTER_PROXY_PORT}</property>
                     <property name="bind_port">7600</property>
@@ -279,16 +279,16 @@
                 <protocol type="UNICAST2"/>
                 <protocol type="pbcast.STABLE"/>
                 <protocol type="AUTH">
-                        <property name="auth_class">org.jgroups.auth.MD5Token</property>
-                        <property name="token_hash">SHA</property>
-                        <property name="auth_value">${env.OPENSHIFT_APP_UUID}</property>
+                    <property name="auth_class">org.jgroups.auth.MD5Token</property>
+                    <property name="token_hash">SHA</property>
+                    <property name="auth_value">${env.OPENSHIFT_APP_UUID}</property>
                 </protocol>
                 <protocol type="pbcast.GMS"/>
                 <protocol type="UFC"/>
                 <protocol type="MFC"/>
-                <protocol type="FRAG2"/>  
+                <protocol type="FRAG2"/>
                 <!--protocol type="pbcast.STATE_TRANSFER"/>
-                <protocol type="pbcast.FLUSH"/-->
+                 <protocol type="pbcast.FLUSH"/-->
             </stack>
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:jmx:1.1">
@@ -312,7 +312,7 @@
                 <security-enabled>false</security-enabled>
                 <journal-file-size>102400</journal-file-size>
                 <journal-min-files>2</journal-min-files>
-
+                
                 <connectors>
                     <netty-connector name="netty" socket-binding="messaging"/>
                     <netty-connector name="netty-throughput" socket-binding="messaging-throughput">
@@ -320,7 +320,7 @@
                     </netty-connector>
                     <in-vm-connector name="in-vm" server-id="0"/>
                 </connectors>
-
+                
                 <acceptors>
                     <netty-acceptor name="netty" socket-binding="messaging"/>
                     <netty-acceptor name="netty-throughput" socket-binding="messaging-throughput">
@@ -329,43 +329,43 @@
                     </netty-acceptor>
                     <in-vm-acceptor name="in-vm" server-id="0"/>
                 </acceptors>
-
+                
                 <!--broadcast-groups>
-                    <broadcast-group name="bg-group1">
-                        <group-address>231.7.7.7</group-address>
-                        <group-port>9876</group-port>
-                        <broadcast-period>5000</broadcast-period>
-                        <connector-ref>
-                            netty
-                        </connector-ref>
-                    </broadcast-group>
-                </broadcast-groups>
-
-                <discovery-groups>
-                    <discovery-group name="dg-group1">
-                        <group-address>231.7.7.7</group-address>
-                        <group-port>9876</group-port>
-                        <refresh-timeout>10000</refresh-timeout>
-                    </discovery-group>
-                </discovery-groups>
-
-                <cluster-connections>
-                    <cluster-connection name="my-cluster">
-                        <address>jms</address>
-                        <connector-ref>netty</connector-ref>
-                        <discovery-group-ref discovery-group-name="dg-group1"/>
-                    </cluster-connection>
-                </cluster-connections-->
-
+                 <broadcast-group name="bg-group1">
+                 <group-address>231.7.7.7</group-address>
+                 <group-port>9876</group-port>
+                 <broadcast-period>5000</broadcast-period>
+                 <connector-ref>
+                 netty
+                 </connector-ref>
+                 </broadcast-group>
+                 </broadcast-groups>
+                 
+                 <discovery-groups>
+                 <discovery-group name="dg-group1">
+                 <group-address>231.7.7.7</group-address>
+                 <group-port>9876</group-port>
+                 <refresh-timeout>10000</refresh-timeout>
+                 </discovery-group>
+                 </discovery-groups>
+                 
+                 <cluster-connections>
+                 <cluster-connection name="my-cluster">
+                 <address>jms</address>
+                 <connector-ref>netty</connector-ref>
+                 <discovery-group-ref discovery-group-name="dg-group1"/>
+                 </cluster-connection>
+                 </cluster-connections-->
+                
                 <!--security-settings>
-                    <security-setting match="#">
-                        <permission type="send" roles="guest"/>
-                        <permission type="consume" roles="guest"/>
-                        <permission type="createNonDurableQueue" roles="guest"/>
-                        <permission type="deleteNonDurableQueue" roles="guest"/>
-                    </security-setting>
-                </security-settings-->
-
+                 <security-setting match="#">
+                 <permission type="send" roles="guest"/>
+                 <permission type="consume" roles="guest"/>
+                 <permission type="createNonDurableQueue" roles="guest"/>
+                 <permission type="deleteNonDurableQueue" roles="guest"/>
+                 </security-setting>
+                 </security-settings-->
+                
                 <address-settings>
                     <address-setting match="#">
                         <dead-letter-address>jms.queue.DLQ</dead-letter-address>
@@ -377,7 +377,7 @@
                         <redistribution-delay>1000</redistribution-delay>
                     </address-setting>
                 </address-settings>
-
+                
                 <jms-connection-factories>
                     <connection-factory name="InVmConnectionFactory">
                         <connectors>
@@ -406,7 +406,7 @@
                         </entries>
                     </pooled-connection-factory>
                 </jms-connection-factories>
-
+                
                 <jms-destinations>
                     <jms-queue name="testQueue">
                         <entry name="queue/test"/>
@@ -497,7 +497,7 @@
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:weld:1.0"/>
     </profile>
-
+    
     <interfaces>
         <interface name="management">
             <loopback-address value="${env.OPENSHIFT_INTERNAL_IP}"/>
@@ -507,11 +507,11 @@
         </interface>
         <interface name="unsecure">
             <!-- Used for IIOP sockets in the standarad configuration.
-                 To secure JacORB you need to setup SSL -->
+             To secure JacORB you need to setup SSL -->
             <loopback-address value="${env.OPENSHIFT_INTERNAL_IP}"/>
         </interface>
     </interfaces>
-
+    
     <socket-binding-group name="standard-sockets" default-interface="public" port-offset="0">
         <socket-binding name="http" port="8080"/>
         <socket-binding name="jacorb" interface="unsecure" port="3528"/>
