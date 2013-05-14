@@ -55,14 +55,13 @@
 		<dependency>
 			<groupId>com.foursquare</groupId>
 			<artifactId>fongo</artifactId>
+			<exclusions>
+				<exclusion>
+					<artifactId>hamcrest-core</artifactId>
+					<groupId>org.hamcrest</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
-		<exclusions>
-			<exclusion>
-				<artifactId>hamcrest-core</artifactId>
-				<groupId>org.hamcrest</groupId>
-			</exclusion>
-		</exclusions>
-	</dependency>
 		<dependency>
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-jpa</artifactId>
