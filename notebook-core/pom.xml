@@ -139,10 +139,6 @@
 					<groupId>org.springframework</groupId>
 				</exclusion>
 				<exclusion>
-					<artifactId>spring-asm</artifactId>
-					<groupId>org.springframework</groupId>
-				</exclusion>
-				<exclusion>
 					<artifactId>spring-expression</artifactId>
 					<groupId>org.springframework</groupId>
 				</exclusion>
